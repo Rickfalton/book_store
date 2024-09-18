@@ -76,6 +76,16 @@ class Order(Base):
         session.commit()
         session.close()
 
+class OrderItem(Base):
+    __tablename__ = 'order_items'
+    
+    order_item_id = Column(Integer, primary_key=True)
+    order_id = Column(Integer, ForeignKey('orders.order_id'))
+    book_id = Column(Integer, ForeignKey('books.book_id'))
+    quantity = Column(Integer, nullable=False)
+    price = Column(Float, nullable=False)
+
+engine = create_engine('sqlite:///app/pharmacy.db')
 
 
 Base.metadata.create_all(engine)
