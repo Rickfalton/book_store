@@ -84,6 +84,9 @@ class OrderItem(Base):
     book_id = Column(Integer, ForeignKey('books.book_id'))
     quantity = Column(Integer, nullable=False)
     price = Column(Float, nullable=False)
+    order_id = Column(Integer, ForeignKey('orders.order_id'))
+    order = relationship("Order", back_populates="order_items")
+
 
 engine = create_engine('sqlite:///lib/vbs_shop.db')
 
