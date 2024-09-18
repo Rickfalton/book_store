@@ -39,9 +39,43 @@ class Book(Base):
         session.close()
         return books
 
+class Order(Base):
+    __tablename__ = 'orders'
+    
+    order_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.user_id'))
+    order_date = Column(DateTime, default=datetime.utcnow)
+    total_amount = Column(Float, nullable=False)
+    user = relationship("User", back_populates="orders")
+    order_items = relationship("OrderItem", back_populates="order")
 
+    @classmethod
+    def complete_purchase(cls, user):
+        session = Session()
+        cart_items = session.query(Cart).filter_by(user_id=user.user_id).all()
+        total_amount = 0
+        
+        for item in cart_items:
+            book = session.query(Book).filter_by(book_id=item.book_id).first()
+            if book and book.stock_quantity >= item.quantity:
+                total_amount += book.price * item.quantity
+                book.stock_quantity -= item.quantity  # Update stock
+            else:
+                print(f"Not enough stock for '{book.title}'")
+        
+        if total_amount > 0:
+            order = cls(user_id=user.user_id, total_amount=total_amount)
+            session.add(order)
+            session.commit()
+            print(f"Purchase completed! Total amount: ${total_amount:.2f}")
+        else:
+            print("No valid items in cart.")
+        
+        # Clear cart after purchase
+        session.query(Cart).filter_by(user_id=user.user_id).delete()
+        session.commit()
+        session.close()
 
-engine = create_engine('sqlite:///app/pharmacy.db')
 
 
 Base.metadata.create_all(engine)
