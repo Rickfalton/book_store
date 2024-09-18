@@ -85,7 +85,7 @@ class OrderItem(Base):
     quantity = Column(Integer, nullable=False)
     price = Column(Float, nullable=False)
 
-engine = create_engine('sqlite:///app/pharmacy.db')
+engine = create_engine('sqlite:///lib/vbs_shop.db')
 
 
 Base.metadata.create_all(engine)
