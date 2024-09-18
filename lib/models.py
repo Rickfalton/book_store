@@ -22,6 +22,24 @@ class User(Base):
         session.close()
         print(f"Added {quantity} of '{book.title}' to your cart.")
 
+class Book(Base):
+    __tablename__ = 'books'
+    
+    book_id = Column(Integer, primary_key=True)
+    title = Column(String(255), nullable=False)
+    author = Column(String(255), nullable=False)
+    price = Column(Float, nullable=False)
+    stock_quantity = Column(Integer, default=0)
+    orders = relationship("OrderItem", back_populates="book")
+
+    @classmethod
+    def view_books(cls):
+        session = Session()
+        books = session.query(cls).all()
+        session.close()
+        return books
+
+
 
 engine = create_engine('sqlite:///app/pharmacy.db')
 
