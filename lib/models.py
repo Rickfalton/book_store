@@ -13,7 +13,8 @@ class User(Base):
     email = Column(String(120), unique=True, nullable=False)
     orders = relationship("Order", back_populates="user")
     cart_items = relationship("Cart", back_populates="user")
-
+    user = relationship("User", back_populates="carts")
+    carts = relationship("Cart", back_populates="user")
     def add_to_cart(self, book, quantity):
         session = Session()
         cart_item = Cart(user_id=self.user_id, book_id=book.book_id, quantity=quantity)
