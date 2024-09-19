@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime, ForeignKey
-from sqlalchemy.orm import declarative_base, relationship
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 from datetime import datetime
 
 Base = declarative_base()
@@ -12,9 +11,8 @@ class User(Base):
     username = Column(String(80), unique=True, nullable=False)
     email = Column(String(120), unique=True, nullable=False)
     orders = relationship("Order", back_populates="user")
-    cart_items = relationship("Cart", back_populates="user")
-    user = relationship("User", back_populates="carts")
-    carts = relationship("Cart", back_populates="user")
+    cart_items = relationship("Cart", back_populates="user", cascade="all, delete-orphan")
+
     def add_to_cart(self, book, quantity):
         session = Session()
         cart_item = Cart(user_id=self.user_id, book_id=book.book_id, quantity=quantity)
@@ -39,6 +37,17 @@ class Book(Base):
         books = session.query(cls).all()
         session.close()
         return books
+
+class Cart(Base):
+    __tablename__ = 'carts'
+    
+    cart_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.user_id'))
+    book_id = Column(Integer, ForeignKey('books.book_id'))
+    quantity = Column(Integer, nullable=False)
+    
+    user = relationship("User", back_populates="cart_items")
+    book = relationship("Book")
 
 class Order(Base):
     __tablename__ = 'orders'
@@ -85,14 +94,11 @@ class OrderItem(Base):
     book_id = Column(Integer, ForeignKey('books.book_id'))
     quantity = Column(Integer, nullable=False)
     price = Column(Float, nullable=False)
-    order_id = Column(Integer, ForeignKey('orders.order_id'))
     order = relationship("Order", back_populates="order_items")
+    book = relationship("Book")
 
-
+# Database initialization
 engine = create_engine('sqlite:///lib/vbs_shop.db')
-
-
 Base.metadata.create_all(engine)
-
 Session = sessionmaker(bind=engine)
 session = Session()
