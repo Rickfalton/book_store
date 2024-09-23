@@ -53,3 +53,24 @@ Description: Registers a new user with the specified username and password.
 $ python3 app/main.py login <username> <password>
 Description: Authenticates a user and starts a session.
 
+## View available books:
+
+
+$ python3 app/main.py list_books
+Description: Displays a list of available books with details such as title, author, price, and stock.
+
+## Add a book to the cart:
+
+$ python3 app/main.py add_to_cart <book_id> <quantity>
+Description: Adds a specified quantity of the book to the shopping cart.
+
+## Checkout:
+
+$ python3 app/main.py checkout
+Description: Completes the purchase and updates the stock levels.
+
+## Generate sales report:
+
+
+$ python3 app/main.py generate_report
+Description: Generates a report of completed sales.
