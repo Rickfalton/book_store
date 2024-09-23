@@ -33,11 +33,6 @@ Sales Reporting: Generate reports of completed sales.
 5. To run the application, execute the main script:
    bash
    $ python3 app/main.py
-## Technologies Used
-Python: Programming language for application logic.
-SQLAlchemy: ORM for database interactions.
-SQLite: Lightweight database for data storage.
-Faker: Library for generating fake data for seeding the database.
 
 ## Usage Instructions
 ## CLI Commands
@@ -74,3 +69,9 @@ Description: Completes the purchase and updates the stock levels.
 
 $ python3 app/main.py generate_report
 Description: Generates a report of completed sales.
+
+## Technologies Used
+Python: Programming language for application logic.
+SQLAlchemy: ORM for database interactions.
+SQLite: Lightweight database for data storage.
+Faker: Library for generating fake data for seeding the database.
