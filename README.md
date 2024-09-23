@@ -38,3 +38,18 @@ Python: Programming language for application logic.
 SQLAlchemy: ORM for database interactions.
 SQLite: Lightweight database for data storage.
 Faker: Library for generating fake data for seeding the database.
+
+## Usage Instructions
+## CLI Commands
+
+
+## Register a new user 
+
+$ python3 app/main.py register <username> <password>
+Description: Registers a new user with the specified username and password.
+
+## Log in:
+
+$ python3 app/main.py login <username> <password>
+Description: Authenticates a user and starts a session.
+
