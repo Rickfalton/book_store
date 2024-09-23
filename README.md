@@ -75,3 +75,6 @@ Python: Programming language for application logic.
 SQLAlchemy: ORM for database interactions.
 SQLite: Lightweight database for data storage.
 Faker: Library for generating fake data for seeding the database.
+
+## Access the Project
+You can access the project on GitHub: Virtual Book Store Repository
